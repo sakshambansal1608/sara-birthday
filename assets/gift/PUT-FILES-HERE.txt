@@ -1,0 +1,3 @@
+Put your photo for the gift here: gift-photo.jpg
+Portrait, landscape or square all work.
+Caption and description are in js/data.js (gift section).

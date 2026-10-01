@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#1F1D3A" />
+    <title>Birthday Quest</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Manrope:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css?v=3" />
+    <link rel="stylesheet" href="css/animations.css?v=3" />
+    <link rel="stylesheet" href="css/responsive.css?v=3" />
+  </head>
+  <body>
+    <a class="skip-link" href="#room-stage">Skip to the room</a>
+
+    <!-- ========== 1. INTRO ========== -->
+    <section id="intro" class="scene scene--intro" aria-label="Welcome">
+      <div class="intro__center">
+        <svg class="intro__sparkle" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            d="M50 8 C53 36 64 47 92 50 C64 53 53 64 50 92 C47 64 36 53 8 50 C36 47 47 36 50 8Z"
+          />
+        </svg>
+        <p class="intro__line" aria-live="polite"></p>
+        <div class="intro__actions" hidden>
+          <button
+            class="btn btn--primary btn--magnetic"
+            id="btn-enter"
+            type="button"
+          ></button>
+          <button class="btn-link" id="btn-enter-quiet" type="button"></button>
+        </div>
+      </div>
+      <button class="intro__skip btn-link" id="btn-skip-intro" type="button">
+        Skip
+      </button>
+    </section>
+
+    <!-- ========== 2. THE ROOM ========== -->
+    <main
+      id="room"
+      class="scene scene--room"
+      aria-label="Your birthday room"
+      hidden
+    >
+      <div class="room__wall" aria-hidden="true"></div>
+      <div class="room__glow" aria-hidden="true"></div>
+      <div class="room__floor" aria-hidden="true">
+        <div class="room__rug"></div>
+      </div>
+      <div class="room__lights" aria-hidden="true"></div>
+      <div class="room__motes" aria-hidden="true"></div>
+
+      <div class="room__stage" id="room-stage" tabindex="-1">
+        <div class="spot spot--window" data-area="win">
+          <button
+            class="obj obj--window"
+            data-obj="window"
+            data-art="windowScene"
+            aria-label="The window: catch the falling stars"
+          ></button>
+          <button
+            class="shooting-star"
+            type="button"
+            aria-label="A shooting star"
+            tabindex="-1"
+            hidden
+          ></button>
+        </div>
+        <div class="spot" data-area="photo" data-surface="plank">
+          <button
+            class="obj"
+            data-obj="photos"
+            data-art="photoFrame"
+            aria-label="Photo frame: open the scrapbook"
+          ></button>
+        </div>
+        <div class="spot" data-area="jar" data-surface="plank">
+          <button
+            class="obj"
+            data-obj="notes"
+            data-art="jar"
+            aria-label="Jar of notes: things that make you, you"
+          ></button>
+        </div>
+        <div class="spot" data-area="phones" data-surface="plank">
+          <button
+            class="obj"
+            data-obj="music"
+            data-art="headphones"
+            aria-label="Headphones: play your song"
+          ></button>
+        </div>
+        <div class="spot" data-area="env" data-surface="plank">
+          <button
+            class="obj"
+            data-obj="envelope"
+            data-art="envelope"
+            aria-label="Envelope: a letter for you"
+          ></button>
+        </div>
+        <div class="spot" data-area="cake" data-surface="plank">
+          <button
+            class="obj"
+            data-obj="cake"
+            data-art="cake"
+            aria-label="Birthday cake: make a wish"
+          ></button>
+        </div>
+        <div class="spot" data-area="gift" data-surface="plank">
+          <button
+            class="obj"
+            data-obj="gift"
+            data-art="gift"
+            aria-label="Gift box"
+          ></button>
+        </div>
+        <div class="spot" data-area="plush" data-surface="floor">
+          <button
+            class="obj"
+            data-obj="plushie"
+            data-art="plushie"
+            aria-label="Bunny plushie: ask for a hint"
+          ></button>
+        </div>
+        <div class="spot" data-area="mystery" data-surface="floor">
+          <button
+            class="obj"
+            data-obj="mystery"
+            data-art="mysteryBox"
+            aria-label="Mystery box"
+          ></button>
+        </div>
+      </div>
+
+      <button class="rug-sparkle" type="button" aria-label="A tiny sparkle">
+        ✦
+      </button>
+      <div class="plush-bubble" role="status" aria-live="polite" hidden></div>
+    </main>
+
+    <!-- ========== 3. MINI-GAME ========== -->
+    <section
+      id="game"
+      class="scene scene--game"
+      aria-label="Catch the falling stars"
+      hidden
+    >
+      <div class="game__sky" aria-hidden="true"></div>
+      <header class="game__bar">
+        <button class="btn-back" type="button" data-go-room>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.5 6 8.5 12l6 6" />
+          </svg>
+          Back to room
+        </button>
+        <p class="game__score" aria-live="polite">
+          <span id="game-score">0</span> of <span id="game-target">12</span>
+        </p>
+      </header>
+      <div class="game__field" id="game-field"></div>
+      <div class="game__card" id="game-intro">
+        <h2 class="game__title" id="game-title"></h2>
+        <p class="game__text" id="game-text"></p>
+        <button class="btn btn--primary" id="btn-game-start" type="button">
+          Start catching
+        </button>
+      </div>
+      <div class="game__card" id="game-win" hidden>
+        <h2 class="game__title" id="game-win-title"></h2>
+        <p class="game__text" id="game-win-text"></p>
+        <button class="btn btn--primary" type="button" data-go-room>
+          Return to your room
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== 4. FINAL ROOM ========== -->
+    <section
+      id="final"
+      class="scene scene--final"
+      aria-label="One last thing"
+      hidden
+    >
+      <canvas class="final__sky" id="final-sky" aria-hidden="true"></canvas>
+      <svg
+        class="final__constellation"
+        id="final-constellation"
+        viewBox="0 0 100 60"
+        aria-hidden="true"
+      ></svg>
+      <div class="final__stage">
+        <p class="final__line" id="final-line" aria-live="polite"></p>
+        <article class="final__content" id="final-content" hidden>
+          <h1 class="final__heading" id="final-heading"></h1>
+          <div class="final__message" id="final-message"></div>
+          <figure class="final__media" id="final-media"></figure>
+          <p class="final__sign" id="final-sign"></p>
+          <div class="final__actions">
+            <button class="btn btn--ghost" id="btn-final-replay" type="button">
+              Watch the ending again
+            </button>
+            <button class="btn btn--primary" type="button" data-go-room>
+              Back to your room
+            </button>
+          </div>
+        </article>
+      </div>
+      <button class="final__skip btn-link" id="btn-final-skip" type="button">
+        Skip to message
+      </button>
+    </section>
+
+    <!-- ========== HUD ========== -->
+    <div class="hud" id="hud" hidden>
+      <button
+        class="hud__progress chip"
+        id="btn-journey"
+        type="button"
+        aria-haspopup="dialog"
+        aria-label="Your progress"
+      >
+        <svg
+          class="constellation"
+          id="hud-constellation"
+          viewBox="0 0 100 60"
+          aria-hidden="true"
+        ></svg>
+        <span class="hud__count" id="hud-count">0 of 6</span>
+      </button>
+      <div class="hud__right">
+        <button
+          class="chip chip--icon"
+          id="btn-sound"
+          type="button"
+          aria-label="Turn sound off"
+          aria-pressed="true"
+        >
+          <svg class="icon-sound-on" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+            <path
+              class="wave"
+              d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"
+              fill="none"
+            />
+          </svg>
+          <svg class="icon-sound-off" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+            <path d="m16 9.5 5 5m0-5-5 5" fill="none" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="mini-player chip" id="mini-player" type="button" hidden>
+      <span class="mini-player__eq" aria-hidden="true"
+        ><i></i><i></i><i></i
+      ></span>
+      <span class="mini-player__title"></span>
+      <span class="mini-player__toggle" role="presentation"></span>
+    </button>
+
+    <!-- ========== PANEL (all sub-experiences open here) ========== -->
+    <div class="panel" id="panel" hidden>
+      <div class="panel__backdrop" data-close></div>
+      <section
+        class="panel__sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="panel-title"
+      >
+        <div class="panel__grip" aria-hidden="true"></div>
+        <header class="panel__bar">
+          <button class="btn-back" type="button" data-close>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14.5 6 8.5 12l6 6" />
+            </svg>
+            Back to room
+          </button>
+        </header>
+        <div class="panel__body" id="panel-body"></div>
+      </section>
+    </div>
+
+    <!-- Photo viewer (above the panel) -->
+    <div
+      class="viewer"
+      id="viewer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Photo viewer"
+      hidden
+    >
+      <div class="viewer__backdrop" data-viewer-close></div>
+      <button
+        class="viewer__close chip chip--icon"
+        type="button"
+        data-viewer-close
+        aria-label="Close photo"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m7 7 10 10M17 7 7 17" fill="none" />
+        </svg>
+      </button>
+      <figure class="viewer__card polaroid polaroid--large" id="viewer-card">
+        <div class="polaroid__img"><img id="viewer-img" alt="" /></div>
+        <figcaption>
+          <span class="polaroid__caption" id="viewer-caption"></span>
+          <span class="polaroid__date" id="viewer-date"></span>
+        </figcaption>
+      </figure>
+      <div class="viewer__nav">
+        <button
+          class="chip chip--icon"
+          type="button"
+          id="viewer-prev"
+          aria-label="Previous photo"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.5 6 8.5 12l6 6" fill="none" />
+          </svg>
+        </button>
+        <span class="viewer__count" id="viewer-count"></span>
+        <button
+          class="chip chip--icon"
+          type="button"
+          id="viewer-next"
+          aria-label="Next photo"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9.5 6 6 6-6 6" fill="none" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Wish veil (darkens the screen during the wish) -->
+    <div class="wish-veil" id="wish-veil" hidden>
+      <p class="wish-veil__text" id="wish-text"></p>
+    </div>
+
+    <!-- Tooltip + toasts -->
+    <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+
+    <canvas class="fx-canvas" id="fx-canvas" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- ========== PANEL TEMPLATES ========== -->
+    <template id="tpl-envelope">
+      <div class="letter">
+        <h2 class="visually-hidden" id="panel-title">A letter for you</h2>
+        <div class="letter__paper">
+          <p class="letter__greeting" data-fill="greeting"></p>
+          <div class="letter__body" data-fill="paragraphs"></div>
+          <p class="letter__sign" data-fill="signoff"></p>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-cake">
+      <div class="cake-scene">
+        <h2 class="panel__title" id="panel-title" data-fill="title"></h2>
+        <p class="panel__lead" data-fill="prompt"></p>
+        <div class="cake-scene__art" data-art="cake"></div>
+        <button class="hold-btn" type="button" data-hold>
+          <svg class="hold-btn__ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="56" pathLength="1" />
+          </svg>
+          <span class="hold-btn__label" data-fill="holdLabel"></span>
+        </button>
+      </div>
+    </template>
+
+    <template id="tpl-photos">
+      <div class="scrapbook">
+        <h2 class="panel__title" id="panel-title">Scrapbook</h2>
+        <p class="panel__lead">Tap a photo to look closer.</p>
+        <div class="scrapbook__board" data-fill="board"></div>
+      </div>
+    </template>
+
+    <template id="tpl-music">
+      <div class="music-scene">
+        <h2 class="visually-hidden" id="panel-title">Your song</h2>
+        <div data-fill="player"></div>
+      </div>
+    </template>
+
+    <template id="tpl-notes">
+      <div class="notes">
+        <h2 class="panel__title" id="panel-title" data-fill="title"></h2>
+        <p class="panel__lead" data-fill="subtitle"></p>
+        <div class="notes__grid" data-fill="cards"></div>
+      </div>
+    </template>
+
+    <template id="tpl-gift">
+      <div class="gift-scene">
+        <h2 class="panel__title" id="panel-title" data-fill="title"></h2>
+        <div class="gift-scene__stage">
+          <div class="gift-scene__art" data-art="gift"></div>
+          <button
+            class="btn btn--primary btn--magnetic"
+            type="button"
+            data-open-gift
+          >
+            Open your gift
+          </button>
+        </div>
+        <div class="gift-scene__inside" hidden>
+          <p class="gift-scene__message" data-fill="message"></p>
+          <div class="gift-scene__media" data-fill="photo"></div>
+          <div class="gift-scene__map">
+            <p data-fill="starMapNote"></p>
+            <button
+              class="btn btn--primary"
+              type="button"
+              data-go-window
+            ></button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-journey">
+      <div class="journey">
+        <h2 class="panel__title" id="panel-title">Your quest</h2>
+        <ol class="journey__list" data-fill="steps"></ol>
+        <p class="journey__secrets" data-fill="secrets"></p>
+        <div class="journey__footer">
+          <button class="btn-link" type="button" data-replay-intro>
+            Replay the intro
+          </button>
+          <button class="btn-link" type="button" data-reset>Start over</button>
+        </div>
+      </div>
+    </template>
+
+    <!-- Scripts: plain scripts sharing one namespace (works even when
+       index.html is opened directly from your computer). -->
+    <script src="js/data.js?v=3"></script>
+    <script src="js/utils.js?v=3"></script>
+    <script src="js/state.js?v=3"></script>
+    <script src="js/art.js?v=3"></script>
+    <script src="js/audio.js?v=3"></script>
+    <script src="js/particles.js?v=3"></script>
+    <script src="js/ui.js?v=3"></script>
+    <script src="js/intro.js?v=3"></script>
+    <script src="js/gallery.js?v=3"></script>
+    <script src="js/interactions.js?v=3"></script>
+    <script src="js/game.js?v=3"></script>
+    <script src="js/final.js?v=3"></script>
+    <script src="js/main.js?v=3"></script>
+  </body>
+</html>

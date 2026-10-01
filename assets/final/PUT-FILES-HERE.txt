@@ -1,0 +1,3 @@
+FINAL ROOM VIDEO: final-video.mp4
+Optional still frame shown before play: final-poster.jpg
+Optional backup photo (used if there is no video): final-photo.jpg

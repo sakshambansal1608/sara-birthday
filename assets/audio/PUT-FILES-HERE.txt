@@ -1,0 +1,2 @@
+Optional sound effects: click.mp3, sparkle.mp3, unlock.mp3, celebration.mp3
+If missing, soft built-in tones play instead.

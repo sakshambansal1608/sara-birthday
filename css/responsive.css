@@ -1,0 +1,110 @@
+/* =============================================================
+   RESPONSIVE — mobile-first.
+   Phones (portrait): the room is composed vertically — window on
+   top, shelf, desk, floor — all in one screen, no scrolling.
+   Wider screens: the room opens up around a central window.
+   ============================================================= */
+
+/* ---------- Phones (default) ---------- */
+.room__stage {
+  top: calc(var(--safe-t) + 112px);
+  left: 10px; right: 10px;
+  bottom: calc(var(--safe-b) + 16px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1.3fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "win    win   win"
+    "photo  jar   phones"
+    "env    cake  gift"
+    "plush  .     mystery";
+}
+[data-area="win"] { grid-area: win; }
+[data-area="photo"] { grid-area: photo; }
+[data-area="jar"] { grid-area: jar; }
+[data-area="phones"] { grid-area: phones; }
+[data-area="env"] { grid-area: env; }
+[data-area="cake"] { grid-area: cake; }
+[data-area="gift"] { grid-area: gift; }
+[data-area="plush"] { grid-area: plush; }
+[data-area="mystery"] { grid-area: mystery; }
+
+/* Small phones (≤ 360px wide or short screens) */
+@media (max-width: 370px), (max-height: 640px) and (orientation: portrait) {
+  .room__stage { top: calc(var(--safe-t) + 96px); gap: 2px 4px; }
+  .room__lights { top: calc(var(--safe-t) + 54px); height: 44px; }
+  .hud__count { display: none; }
+  .hud__progress { padding-right: 10px; }
+  .obj__badge { min-width: 20px; height: 20px; font-size: 10px; }
+}
+
+/* Larger phones / small tablets */
+@media (min-width: 560px) {
+  .scrapbook__board { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 20px; }
+  .notes__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .panel__body { padding: 8px 32px 34px; }
+}
+
+/* ---------- Tablets & up: centred cards instead of sheets ---------- */
+@media (min-width: 720px) and (min-height: 560px) {
+  .panel { align-items: center; padding: 24px; }
+  .panel__sheet { width: min(580px, 100%); max-height: 88dvh; border-radius: var(--r-l); padding-bottom: 0; box-shadow: 0 40px 80px -30px rgba(22, 21, 45, .6); }
+  .panel__sheet--wide { width: min(900px, 100%); }
+  .panel__sheet--compact { width: min(460px, 100%); }
+  .panel__grip { display: none; }
+  .panel__bar { padding: 12px 14px 0; }
+  .obj .art { max-width: 210px; max-height: 210px; }
+  .hud { top: calc(var(--safe-t) + 18px); left: 20px; right: 20px; }
+  .constellation { width: 72px; height: 44px; }
+}
+
+/* ---------- Landscape / desktop: the room opens up ---------- */
+@media (min-aspect-ratio: 1/1) and (min-width: 640px) {
+  .room__stage {
+    top: calc(var(--safe-t) + 104px);
+    bottom: calc(var(--safe-b) + 18px);
+    left: max(20px, calc(50% - 660px));
+    right: max(20px, calc(50% - 660px));
+    gap: 8px 14px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: 1fr 1fr 1.15fr;
+    grid-template-areas:
+      "photo  win   win   win   phones"
+      "jar    win   win   win   env"
+      "plush  cake  gift  gift  mystery";
+  }
+  .room__floor { height: 27%; }
+  .room__rug { width: 60%; }
+  .rug-sparkle { left: 30%; bottom: calc(var(--safe-b) + 2%); }
+  .spot--window { padding: 0 4%; }
+  /* Mini player moves up next to the sound button, away from the gift */
+  .mini-player { left: auto; right: 76px; bottom: auto; top: calc(var(--safe-t) + 18px); transform: none; }
+  .mini-player:active { transform: scale(.96); }
+}
+
+/* Short landscape phones */
+@media (min-aspect-ratio: 1/1) and (max-height: 520px) {
+  .room__stage { top: calc(var(--safe-t) + 64px); bottom: calc(var(--safe-b) + 8px); gap: 2px 8px; }
+  .room__lights { display: none; }
+  .hud { top: calc(var(--safe-t) + 8px); }
+  .hud__count { display: none; }
+  .panel__sheet { max-height: 94dvh; }
+  .final__stage { padding-top: calc(var(--safe-t) + 60px); }
+  .final__constellation.is-up { top: 6%; }
+  .vplayer { width: min(100%, calc(80dvh * var(--arnum, 1.7778))); }
+  .toasts { top: calc(var(--safe-t) + 56px); }
+  .viewer { padding-top: calc(var(--safe-t) + 12px); }
+  .polaroid--large { width: min(60vw, 64dvh, 420px); }
+}
+
+/* Big screens */
+@media (min-width: 1440px) {
+  .obj .art { max-width: 240px; max-height: 240px; }
+  body { font-size: 17px; }
+}
+
+/* Touch devices: no hover lift sticking after tap */
+@media (hover: none) {
+  .obj:hover .art { transform: none; filter: none; }
+  .polaroid:hover { transform: rotate(var(--tilt)); box-shadow: var(--shadow-soft); }
+  .btn--primary:hover { transform: none; }
+}

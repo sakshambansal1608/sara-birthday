@@ -1,0 +1,3 @@
+Put your photos here: photo1.jpg ... photo6.jpg
+Add or remove photos in js/data.js (photos list).
+Tip: resize to about 1200px wide so they load fast.
